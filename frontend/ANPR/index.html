@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ANPR System | Automatic Number Plate Recognition</title>
+    <script>
+      // Prevent automatic theme detection and ensure user-controlled theme
+      (function () {
+        const savedTheme = localStorage.getItem("theme");
+        const root = document.documentElement;
+
+        // Remove any existing theme classes
+        root.classList.remove("dark", "light");
+
+        // Apply saved theme or default to light
+        if (savedTheme === "dark") {
+          root.classList.add("dark");
+        } else {
+          // Default to light mode if no theme is saved
+          root.classList.remove("dark");
+          localStorage.setItem("theme", "light");
+        }
+
+        // Prevent system preference from overriding user choice
+        const observer = new MutationObserver(function (mutations) {
+          mutations.forEach(function (mutation) {
+            if (
+              mutation.type === "attributes" &&
+              mutation.attributeName === "class"
+            ) {
+              const currentTheme = localStorage.getItem("theme");
+              const hasDark = root.classList.contains("dark");
+
+              // If theme doesn't match saved preference, restore it
+              if (currentTheme === "dark" && !hasDark) {
+                root.classList.add("dark");
+              } else if (currentTheme === "light" && hasDark) {
+                root.classList.remove("dark");
+              }
+            }
+          });
+        });
+
+        observer.observe(root, {
+          attributes: true,
+          attributeFilter: ["class"],
+        });
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

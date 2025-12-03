@@ -1,0 +1,120 @@
+@import url("https://fonts.googleapis.com/css2?family=Sparrow:wght@400;500;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 10%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 10%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 10%;
+
+    --primary: 142 76% 36%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 199 89% 48%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 0 0% 95%;
+    --muted-foreground: 0 0% 40%;
+
+    --accent: 262 83% 58%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 142 76% 36%;
+
+    --radius: 0.5rem;
+  }
+}
+
+.dark {
+  --background: 0 0% 0%;
+  --foreground: 0 0% 100%;
+
+  --card: 0 0% 5%;
+  --card-foreground: 0 0% 100%;
+
+  --popover: 0 0% 5%;
+  --popover-foreground: 0 0% 100%;
+
+  --primary: 142 76% 36%;
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 199 89% 48%;
+  --secondary-foreground: 0 0% 100%;
+
+  --muted: 0 0% 20%;
+  --muted-foreground: 0 0% 80%;
+
+  --accent: 262 83% 58%;
+  --accent-foreground: 0 0% 100%;
+
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+
+  --border: 0 0% 20%;
+  --input: 0 0% 20%;
+  --ring: 142 76% 36%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: "Sparrow", "Inter", sans-serif;
+    /* Default light mode graph paper */
+    background-color: #fff;
+    background-image: linear-gradient(to right, #e5e7eb 1px, transparent 1px),
+      linear-gradient(to bottom, #e5e7eb 1px, transparent 1px);
+    background-size: 32px 32px;
+    transition: background-color 0.3s, background-image 0.3s;
+  }
+}
+
+.dark body {
+  /* Dark mode graph paper */
+  background-color: #181a1b;
+  background-image: linear-gradient(to right, #444 1px, transparent 1px),
+    linear-gradient(to bottom, #444 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* Optional: Add a subtle fade-in for theme transitions */
+body {
+  transition: background-color 0.3s, background-image 0.3s;
+}
+
+.terminal-glow {
+  text-shadow: 0 0 5px theme("colors.primary.DEFAULT"),
+    0 0 10px theme("colors.primary.DEFAULT");
+}
+
+.terminal-table {
+  @apply border-collapse w-full;
+}
+
+.terminal-table th,
+.terminal-table td {
+  @apply border border-muted p-2;
+}
+
+.terminal-table th {
+  @apply bg-muted text-muted-foreground;
+}
+
+.terminal-input {
+  @apply bg-card text-foreground border-muted focus:border-primary focus:ring-primary;
+}

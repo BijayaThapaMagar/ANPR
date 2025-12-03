@@ -1,0 +1,70 @@
+services:
+  mongodb:
+    image: mongo:7.0
+    container_name: anpr_mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: anpr_db
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - anpr_network
+
+  backend:
+    env_file:
+      - .env
+    image: anpr_backend:latest
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: anpr_backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - MONGODB_URI=mongodb://admin:password@mongodb:27017/anpr_db?authSource=admin
+      - USE_ROBOFLOW_OCR=0
+      - HOST=0.0.0.0
+      - PORT=8000
+      - DEBUG=False
+    volumes:
+      - ./backend/models:/app/models:ro
+      - backend_results:/app/results
+      - backend_temp:/app/temp
+    depends_on:
+      - mongodb
+    networks:
+      - anpr_network
+
+  frontend:
+    platform: linux/amd64
+    image: anpr_frontend:latest
+    build:
+      context: ./frontend/ANPR
+      dockerfile: Dockerfile
+    container_name: anpr_frontend
+    restart: unless-stopped
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:8000
+    depends_on:
+      - backend
+    networks:
+      - anpr_network
+
+volumes:
+  mongodb_data:
+    driver: local
+  backend_results:
+    driver: local
+  backend_temp:
+    driver: local
+
+networks:
+  anpr_network:
+    driver: bridge 
