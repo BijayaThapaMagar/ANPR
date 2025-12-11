@@ -284,5 +284,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
   </p>
 </div>
 =======
-# ANPR
->>>>>>> a2167204dc2aa33fc966ead34407f602bbd07c9a
+
+
